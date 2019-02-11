@@ -6,19 +6,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.mbidewell.kotlin.data.MongoData;
 import com.mbidewell.kotlin.MongoDataDAO;
+import org.springframework.beans.factory.annotation.Autowired
 
 @RestController
 class KMController {
+	@Autowired
+	lateinit var mdd: MongoDataDAO
+
 	@GetMapping("/hello")
-	public fun getDocument(): MongoData {
-		var mc: MongoClient = MongoClient();
-		var morphia: Morphia = Morphia();
-	
-	morphia.mapPackage("com.mbidewell.data");
-	
-	var mdd: MongoDataDAO = MongoDataDAO(mc, morphia, "TestDB");
-		
-	return mdd.findOne("age", 50);
-		
+	public fun getDocument(): MongoData? {
+		return mdd.findOne("age", 50)
 	}
 }
